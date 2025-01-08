@@ -14,7 +14,9 @@ import { LettersUsed, LettersUsedProps } from "./components/LettersUsed"
 export default function App() {
   const [attempts, setAttempts] = useState(0)
   const [letter, setLetter] = useState("")
-  const { lettersUsed, setLetter } = useState<LettersUsedProps[]>([])
+  const [lettersUsed, setLetterUsed] = useState<LettersUsedProps[]>([
+    { value: "x", correct: false },
+  ])
   const [challenge, setChallenge] = useState<Challenge | null>(null)
 
   function handleRestartGame() {
@@ -30,6 +32,27 @@ export default function App() {
     setAttempts(0)
     setLetter("")
   }
+
+  function handleConfirm() {
+    if (!challenge) {
+      return
+    }
+
+    if (!letter.trim()) {
+      return alert("Digite uma letra")
+    }
+
+    const value = letter.toUpperCase()
+    const exists = lettersUsed.find(
+      (used) => used.value.toUpperCase() === value
+    )
+
+    if (exists) {
+      return alert("Letra já utilizada")
+    }
+  }
+  
+  
 
   useEffect(() => {
     startGame()
@@ -55,8 +78,13 @@ export default function App() {
         <h4>Palpites</h4>
 
         <div className={styles.guess}>
-          <Input autoFocus maxLength={1} placeholder="?" />
-          <Button title="Confirmar"></Button>
+          <Input
+            autoFocus
+            maxLength={1}
+            placeholder="?"
+            onChange={(e) => setLetter(e.target.value)}
+          />
+          <Button title="Confirmar" onClick={handleConfirm}></Button>
         </div>
 
         <LettersUsed data={lettersUsed} />
