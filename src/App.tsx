@@ -11,6 +11,8 @@ import { Input } from "./components/Input"
 import { Button } from "./components/Button"
 import { LettersUsed, LettersUsedProps } from "./components/LettersUsed"
 
+const ATTEMPTS_MARGIN = 5
+
 export default function App() {
   const [score, setScore] = useState(0)
   const [letter, setLetter] = useState("")
@@ -75,7 +77,7 @@ export default function App() {
       <main>
         <Header
           current={lettersUsed.length}
-          max={10}
+          max={challenge.word.length + ATTEMPTS_MARGIN}
           onRestart={handleRestartGame}
         />
 
