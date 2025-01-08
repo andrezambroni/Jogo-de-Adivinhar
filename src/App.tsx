@@ -16,11 +16,15 @@ const ATTEMPTS_MARGIN = 5
 export default function App() {
   const [score, setScore] = useState(0)
   const [letter, setLetter] = useState("")
-  const [lettersUsed, setLetterUsed] = useState<LettersUsedProps[]>([])
+  const [lettersUsed, setLettersUsed] = useState<LettersUsedProps[]>([])
   const [challenge, setChallenge] = useState<Challenge | null>(null)
 
   function handleRestartGame() {
-    alert("Reiniciar o jogo!")
+    const isConfirmed = window.confirm("Deseja reiniciar o jogo?")
+
+    if( isConfirmed){
+      startGame()
+    }
   }
 
   function startGame() {
@@ -31,6 +35,7 @@ export default function App() {
 
     setScore(0)
     setLetter("")
+    setLettersUsed([])
   }
 
   function handleConfirm() {
@@ -48,7 +53,8 @@ export default function App() {
     )
 
     if (exists) {
-      return alert("Letra já utilizada")
+      setLetter("")
+      return alert("Letra já utilizada" + value)
     }
 
     const hits = challenge.word
@@ -59,14 +65,34 @@ export default function App() {
     const correct = hits > 0
     const currentScore = score + hits
 
-    setLetterUsed((prevState) => [...prevState, { value, correct }])
+    setLettersUsed((prevState) => [...prevState, { value, correct }])
     setScore(currentScore)
     setLetter("")
+  }
+
+  function endGame(message: string) {
+    alert(message)
+    startGame()
   }
 
   useEffect(() => {
     startGame()
   }, [])
+
+  useEffect(() => {
+    if (!challenge) {
+      return
+    }
+    setTimeout(() => {
+      const attemptLimit = challenge.word.length + ATTEMPTS_MARGIN
+      if (score === challenge.word.length) {
+        return endGame("Você descobriu a palavra!")
+      }
+      if (lettersUsed.length === attemptLimit) {
+        return endGame("Você perdeu!")
+      }
+    }, 200)
+  }, [score, lettersUsed.length])
 
   if (!challenge) {
     return
