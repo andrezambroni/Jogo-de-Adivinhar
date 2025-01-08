@@ -50,6 +50,9 @@ export default function App() {
     if (exists) {
       return alert("Letra já utilizada")
     }
+
+    setLetterUsed((prevState) => [...prevState, { value, correct: false }])
+    setLetter("")
   }
   
   
@@ -82,6 +85,7 @@ export default function App() {
             autoFocus
             maxLength={1}
             placeholder="?"
+            value={letter}
             onChange={(e) => setLetter(e.target.value)}
           />
           <Button title="Confirmar" onClick={handleConfirm}></Button>
