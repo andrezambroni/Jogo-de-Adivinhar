@@ -2,6 +2,8 @@
 
 ### Um jogo web de adivinhação de palavras desenvolvido com React e TypeScript.
 
+### Figma: https://www.figma.com/design/fvkFy0MS8kJJ52rbYEPw08/Jogo-de-Adivinhação-(Community)?node-id=3101-388&t=K3q1n9iIvfcdSfe0-0
+
 ## 📝 Sobre o Projeto
 **Este é um jogo onde o jogador precisa adivinhar uma palavra relacionada a programação. O jogador recebe uma dica sobre a palavra e tem um número limitado de tentativas para acertá-la, letra por letra.**
 
